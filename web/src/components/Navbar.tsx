@@ -43,7 +43,9 @@ export default function Navbar() {
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/markets">Markets</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/ai-signal">AI Signal</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/signal-report">Transparency</Link>
-          <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/journal">Journal</Link>
+          {isAuthenticated && (
+            <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/journal">Journal</Link>
+          )}
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/news">News</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/education">Education</Link>
         </div>
@@ -86,7 +88,9 @@ export default function Navbar() {
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/markets">Markets</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/ai-signal">AI Signal</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/signal-report">Transparency</Link>
-          <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/journal">Journal</Link>
+          {isAuthenticated && (
+            <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/journal">Journal</Link>
+          )}
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/news">News</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/education">Education</Link>
           

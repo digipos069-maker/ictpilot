@@ -17,6 +17,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import MyProfile from './pages/MyProfile';
 import FloatingTelegram from './components/FloatingTelegram';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -62,13 +63,18 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/markets" element={<Markets />} />
         <Route path="/ai-signal" element={<AISignal />} />
-        <Route path="/journal" element={<Journal />} />
+        
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/journal" element={<Journal />} />
+          <Route path="/my-profile" element={<MyProfile />} />
+        </Route>
+        
         <Route path="/news" element={<News />} />
         <Route path="/education" element={<Education />} />
         <Route path="/signal-report" element={<SignalTransparentReport />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/my-profile" element={<MyProfile />} />
       </Routes>
       
       {!isAuthPage && <Footer />}
