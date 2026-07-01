@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ICTPilot | Building the Future Through Blockchain</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Manrope:wght@400;500;700&amp;family=Space+Grotesk:wght@500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@100..900&amp;family=Sora:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#008274",
+                        "on-secondary-container": "#c9aeff",
+                        "surface-container-highest": "#34324a",
+                        "on-primary-fixed-variant": "#7d008c",
+                        "inverse-on-surface": "#302e45",
+                        "primary-container": "#c026d3",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#fda9ff",
+                        "primary": "#fda9ff",
+                        "inverse-primary": "#a400b7",
+                        "outline": "#9f8a9d",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0d0b21",
+                        "on-secondary-fixed": "#25005a",
+                        "on-primary": "#580063",
+                        "on-background": "#e4dffe",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "on-primary-fixed": "#36003d",
+                        "on-surface": "#e4dffe",
+                        "surface-variant": "#34324a",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "on-secondary": "#3f008e",
+                        "outline-variant": "#524151",
+                        "on-tertiary-fixed": "#00201c",
+                        "surface-container-low": "#1b192f",
+                        "on-tertiary": "#003731",
+                        "tertiary-fixed": "#62fae3",
+                        "primary-fixed-dim": "#fda9ff",
+                        "on-primary-container": "#fffafa",
+                        "on-tertiary-container": "#ebfff9",
+                        "background": "#121127",
+                        "secondary": "#d2bbff",
+                        "surface-container-high": "#29273f",
+                        "surface-container": "#1f1d34",
+                        "secondary-fixed": "#eaddff",
+                        "on-surface-variant": "#d7c0d3",
+                        "on-tertiary-fixed-variant": "#005047",
+                        "surface-bright": "#39364f",
+                        "primary-fixed": "#ffd6fb",
+                        "tertiary-fixed-dim": "#3cddc7",
+                        "surface": "#121127",
+                        "tertiary": "#3cddc7",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "surface-dim": "#121127",
+                        "secondary-container": "#6001d1",
+                        "inverse-surface": "#e4dffe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "container-max": "1280px",
+                        "section-padding": "120px",
+                        "gutter": "24px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Manrope"],
+                        "code-snippet": ["Space Grotesk"],
+                        "display-lg-mobile": ["Sora"],
+                        "label-caps": ["Space Grotesk"],
+                        "display-lg": ["Sora"],
+                        "headline-sm": ["Sora"],
+                        "headline-md": ["Sora"],
+                        "body-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "code-snippet": ["14px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "headline-md": ["36px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    },
+                    "animation": {
+                        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+                        "marquee": "marquee 25s linear infinite"
+                    },
+                    "keyframes": {
+                        "marquee": {
+                            "0%": { transform: "translateX(0%)" },
+                            "100%": { transform: "translateX(-33.3333%)" }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(192, 38, 211, 0.4);
+            box-shadow: 0 0 20px rgba(192, 38, 211, 0.15);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(253, 169, 255, 0.5);
+        }
+        .gradient-border-btn {
+            position: relative;
+            background: linear-gradient(to right, #c026d3, #6001d1);
+            padding: 1px;
+            border-radius: 9999px;
+        }
+        .btn-content {
+            background: #032EA1;
+            border-radius: 9999px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .glow-circle {
+            background: radial-gradient(circle, rgba(192, 38, 211, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .nav-blur {
+            backdrop-filter: blur(8px);
+        }
+        .step-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 5s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white overflow-x-hidden">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
