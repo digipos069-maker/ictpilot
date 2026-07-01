@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { RootState } from '../store/store';
@@ -176,7 +177,7 @@ export default function News() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {newsEvents.map((event) => (
-                  <div key={event.id} className="glass-card rounded-2xl p-5 border border-outline-variant/20 hover:border-primary/30 transition-colors group">
+                  <Link to={`/news/${event.id}`} key={event.id} className="glass-card rounded-2xl p-5 border border-outline-variant/20 hover:border-primary/30 hover:-translate-y-1 transition-all group block cursor-pointer">
                     <div className="flex flex-col gap-4 h-full">
                       
                       {/* Time & Title */}
@@ -214,7 +215,7 @@ export default function News() {
                       </div>
                       
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
               

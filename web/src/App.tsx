@@ -11,6 +11,7 @@ import Markets from './pages/Markets';
 import AISignal from './pages/AISignal';
 import Journal from './pages/Journal';
 import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
 import Education from './pages/Education';
 import SignalTransparentReport from './pages/SignalTransparentReport';
 import Login from './pages/Login';
@@ -71,6 +72,7 @@ function App() {
         </Route>
         
         <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/education" element={<Education />} />
         <Route path="/signal-report" element={<SignalTransparentReport />} />
         <Route path="/login" element={<Login />} />
