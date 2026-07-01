@@ -50,14 +50,14 @@ export default function Register() {
         throw new Error(data.message || 'Failed to register account');
       }
 
-      // If API returns token on register (optional), we can log them in immediately.
-      // Usually register returns 201 Created and requires login, but let's assume 
-      // we navigate to login or dashboard. If token returned:
-      if (data.token) {
-        dispatch(loginSuccess(data.token));
+      // If API returns token on register
+      if (data.access_token || data.token) {
+        const tokenToSave = data.access_token || data.token;
+        dispatch(loginSuccess(tokenToSave));
         navigate('/ai-signal');
       } else {
-        // If no token, navigate to login
+        // Since register returns the user object (id, email) but no token on this API,
+        // we navigate to login so they can log in to get the access_token.
         navigate('/login');
       }
 

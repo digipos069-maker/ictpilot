@@ -36,9 +36,10 @@ export default function Login() {
         throw new Error(data.message || 'Failed to login');
       }
 
-      // We expect the API to return the token based on Postman details
-      if (data.token) {
-        dispatch(loginSuccess(data.token));
+      // The API returns the token as access_token based on our test
+      if (data.access_token || data.token) {
+        const tokenToSave = data.access_token || data.token;
+        dispatch(loginSuccess(tokenToSave));
         navigate('/ai-signal');
       } else {
         throw new Error("No token received from the server");
