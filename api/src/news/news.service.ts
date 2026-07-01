@@ -15,18 +15,19 @@ export class NewsService {
 
     if (timeframe) {
       const now = new Date();
-      const startOfDay = new Date(now.setHours(0, 0, 0, 0));
+      // Set to midnight UTC
+      const startOfDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
       
       let endRange = new Date(startOfDay);
       
       if (timeframe === 'today') {
-        endRange.setDate(endRange.getDate() + 1);
+        endRange.setUTCDate(endRange.getUTCDate() + 1);
       } else if (timeframe === 'tomorrow') {
-        startOfDay.setDate(startOfDay.getDate() + 1);
+        startOfDay.setUTCDate(startOfDay.getUTCDate() + 1);
         endRange = new Date(startOfDay);
-        endRange.setDate(endRange.getDate() + 1);
+        endRange.setUTCDate(endRange.getUTCDate() + 1);
       } else if (timeframe === 'week') {
-        endRange.setDate(endRange.getDate() + 7);
+        endRange.setUTCDate(endRange.getUTCDate() + 7);
       }
 
       where.eventTime = {
