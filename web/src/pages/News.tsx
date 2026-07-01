@@ -88,10 +88,11 @@ export default function News() {
         </div>
         
         <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-full p-1 flex">
-            <button className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#032EA1]/20 text-primary border border-primary/30">All News</button>
-            <button className="px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">High Impact</button>
-            <button className="px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Crypto</button>
+          <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-full p-1 flex overflow-x-auto no-scrollbar">
+            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold bg-[#032EA1]/20 text-primary border border-primary/30">All News</button>
+            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">High Impact</button>
+            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Medium Impact</button>
+            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Low Impact</button>
           </div>
           <div className="relative">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">calendar_today</span>
@@ -110,32 +111,29 @@ export default function News() {
         <div className="xl:col-span-2 flex flex-col gap-6">
           <h2 className="text-xl font-bold text-on-surface border-b border-outline-variant/20 pb-4">Today's Events</h2>
           
-          <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {newsEvents.map((event) => (
               <div key={event.id} className="glass-card rounded-2xl p-5 border border-outline-variant/20 hover:border-primary/30 transition-colors group">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex flex-col gap-4 h-full">
                   
                   {/* Time & Title */}
-                  <div className="flex gap-4 md:w-1/2">
+                  <div className="flex gap-4">
                     <div className="flex flex-col items-center justify-center min-w-[70px] bg-surface-container-lowest rounded-xl p-2 border border-outline-variant/10">
                       <div className="text-sm font-bold text-on-surface">{event.time.split(' ')[0]}</div>
                       <div className="text-[10px] text-on-surface-variant">{event.time.split(' ')[1]}</div>
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${event.status === 'upcoming' ? 'bg-primary/20 text-primary' : 'bg-outline-variant/20 text-on-surface-variant'}`}>
-                          {event.countdown}
-                        </span>
                         <div className="flex items-center gap-1 text-[10px] text-on-surface-variant font-bold border border-outline-variant/20 rounded px-1.5 py-0.5">
                           <span className="material-symbols-outlined text-[12px]">public</span> {event.country}
                         </div>
                       </div>
-                      <h3 className="text-lg font-bold text-on-surface group-hover:text-primary transition-colors">{event.title}</h3>
+                      <h3 className="text-lg font-bold text-on-surface group-hover:text-primary transition-colors leading-tight">{event.title}</h3>
                     </div>
                   </div>
 
                   {/* Impact & Affected Pairs */}
-                  <div className="md:w-1/4 border-l-0 md:border-l border-outline-variant/20 md:pl-6">
+                  <div className="border-t border-outline-variant/20 pt-4 flex flex-col justify-center mt-auto">
                     <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Level of Effect</div>
                     <div className="flex items-center gap-2 mb-2">
                       {renderEffectMeter(event.effectLevel)}
@@ -149,22 +147,6 @@ export default function News() {
                           {pair}
                         </span>
                       ))}
-                    </div>
-                  </div>
-
-                  {/* Data Points */}
-                  <div className="md:w-1/4 flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 border-outline-variant/20 pt-4 md:pt-0">
-                    <div className="text-center">
-                      <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Prev</div>
-                      <div className="text-sm font-mono text-on-surface">{event.previous}</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Est</div>
-                      <div className="text-sm font-mono text-on-surface">{event.forecast}</div>
-                    </div>
-                    <div className="text-center bg-surface-container-lowest rounded-lg p-2 border border-outline-variant/10 min-w-[60px]">
-                      <div className="text-[10px] text-primary uppercase font-bold mb-0.5">Act</div>
-                      <div className="text-sm font-mono font-bold text-on-surface">{event.actual}</div>
                     </div>
                   </div>
                   
