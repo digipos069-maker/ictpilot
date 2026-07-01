@@ -4,7 +4,8 @@ export default function Footer() {
   return (
     <>
 {/* Footer */}
-<footer className="w-full px-8 pt-section-padding pb-8 max-w-container-max mx-auto bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/20">
+<footer className="w-full bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/20 pt-section-padding pb-8 px-8">
+<div className="max-w-container-max mx-auto w-full">
 <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-20">
 <div className="md:col-span-4">
 <div className="mb-6">
@@ -73,6 +74,7 @@ export default function Footer() {
 <a className="hover:text-tertiary" href="#">Privacy Policy</a>
 <a className="hover:text-tertiary" href="#">Terms</a>
 <a className="hover:text-tertiary" href="#">Disclaimer</a>
+</div>
 </div>
 </div>
 </footer>
