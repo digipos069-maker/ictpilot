@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { RootState } from '../store/store';
+import Pagination from '../components/Pagination';
+import TradingLoader from '../components/TradingLoader';
+import EmptyState from '../components/EmptyState';
 
 interface NewsEvent {
   id: string;
@@ -27,6 +30,8 @@ export default function News() {
   
   const [impactFilter, setImpactFilter] = useState('ALL');
   const [dateFilter, setDateFilter] = useState('today');
+  const [page, setPage] = useState(1);
+  const limit = 10;
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -49,6 +54,11 @@ export default function News() {
           queryParams.append('filter', impactFilter);
         }
         queryParams.append('date', dateFilter);
+        queryParams.append('page', page.toString());
+        queryParams.append('limit', limit.toString());
+
+        // Artificial delay so the loading animation is visible
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         const response = await fetch(`${baseUrl}/api/v1/news?${queryParams.toString()}`, {
           headers
@@ -66,7 +76,7 @@ export default function News() {
     };
 
     fetchNews();
-  }, [token, impactFilter, dateFilter]);
+  }, [token, impactFilter, dateFilter, page]);
 
   // Helper function to render the "Level of Effect" meter (flames)
   const renderEffectMeter = (level: number) => {
@@ -98,16 +108,16 @@ export default function News() {
         
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-full p-1 flex overflow-x-auto no-scrollbar">
-            <button onClick={() => setImpactFilter('ALL')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'ALL' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>All News</button>
-            <button onClick={() => setImpactFilter('HIGH')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'HIGH' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>High Impact</button>
-            <button onClick={() => setImpactFilter('MEDIUM')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'MEDIUM' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>Medium Impact</button>
-            <button onClick={() => setImpactFilter('LOW')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'LOW' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>Low Impact</button>
+            <button onClick={() => { setImpactFilter('ALL'); setPage(1); }} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'ALL' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>All News</button>
+            <button onClick={() => { setImpactFilter('HIGH'); setPage(1); }} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'HIGH' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>High Impact</button>
+            <button onClick={() => { setImpactFilter('MEDIUM'); setPage(1); }} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'MEDIUM' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>Medium Impact</button>
+            <button onClick={() => { setImpactFilter('LOW'); setPage(1); }} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'LOW' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>Low Impact</button>
           </div>
           <div className="relative">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">calendar_today</span>
             <select 
               value={dateFilter} 
-              onChange={(e) => setDateFilter(e.target.value)}
+              onChange={(e) => { setDateFilter(e.target.value); setPage(1); }}
               className="bg-surface-container-lowest border border-outline-variant/30 rounded-full py-2 pl-9 pr-8 text-xs font-bold text-on-surface focus:outline-none focus:border-primary appearance-none cursor-pointer"
             >
               <option value="today">Today</option>
@@ -122,60 +132,99 @@ export default function News() {
         
         {/* Left/Center Column: Live Macro Feed */}
         <div className="xl:col-span-2 flex flex-col gap-6">
-          <h2 className="text-xl font-bold text-on-surface border-b border-outline-variant/20 pb-4">Today's Events</h2>
+          <div className="flex justify-between items-center border-b border-outline-variant/20 pb-4">
+            <h2 className="text-xl font-bold text-on-surface">Today's Events</h2>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Previous Page"
+              >
+                <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+              </button>
+              <button 
+                onClick={() => setPage(p => p + 1)}
+                disabled={!Array.isArray(newsEvents) || newsEvents.length < limit}
+                className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Next Page"
+              >
+                <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+              </button>
+            </div>
+          </div>
           
-          {loading && <div className="text-on-surface-variant py-4">Loading news events...</div>}
-          {error && <div className="text-error py-4">Error loading news: {error}</div>}
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(Array.isArray(newsEvents) ? newsEvents : []).map((event) => (
-              <div key={event.id} className="glass-card rounded-2xl p-5 border border-outline-variant/20 hover:border-primary/30 transition-colors group">
-                <div className="flex flex-col gap-4 h-full">
-                  
-                  {/* Time & Title */}
-                  <div className="flex gap-4">
-                    <div className="flex flex-col items-center justify-center min-w-[70px] bg-surface-container-lowest rounded-xl p-2 border border-outline-variant/10">
-                      <div className="text-sm font-bold text-on-surface">{event.time ? event.time.split(' ')[0] : '--:--'}</div>
-                      <div className="text-[10px] text-on-surface-variant">{event.time && event.time.split(' ').length > 1 ? event.time.split(' ')[1] : ''}</div>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <div className="flex items-center gap-1 text-[10px] text-on-surface-variant font-bold border border-outline-variant/20 rounded px-1.5 py-0.5">
-                          <span className="material-symbols-outlined text-[12px]">public</span> {event.country}
+          {loading ? (
+            <TradingLoader />
+          ) : error ? (
+            <div className="text-error py-4">Error loading news: {error}</div>
+          ) : (!Array.isArray(newsEvents) || newsEvents.length === 0) ? (
+            <EmptyState 
+              icon="newspaper" 
+              title="No Events Found" 
+              description="We couldn't find any macro events matching your current filters. Try adjusting the impact level or timeframe."
+              actionButton={
+                <button 
+                  onClick={() => { setImpactFilter('ALL'); setDateFilter('today'); setPage(1); }}
+                  className="bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 px-4 py-2 rounded-full text-xs font-bold transition-colors"
+                >
+                  Clear Filters
+                </button>
+              }
+            />
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {newsEvents.map((event) => (
+                  <div key={event.id} className="glass-card rounded-2xl p-5 border border-outline-variant/20 hover:border-primary/30 transition-colors group">
+                    <div className="flex flex-col gap-4 h-full">
+                      
+                      {/* Time & Title */}
+                      <div className="flex gap-4">
+                        <div className="flex flex-col items-center justify-center min-w-[70px] bg-surface-container-lowest rounded-xl p-2 border border-outline-variant/10">
+                          <div className="text-sm font-bold text-on-surface">{event.time ? event.time.split(' ')[0] : '--:--'}</div>
+                          <div className="text-[10px] text-on-surface-variant">{event.time && event.time.split(' ').length > 1 ? event.time.split(' ')[1] : ''}</div>
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="flex items-center gap-1 text-[10px] text-on-surface-variant font-bold border border-outline-variant/20 rounded px-1.5 py-0.5">
+                              <span className="material-symbols-outlined text-[12px]">public</span> {event.country}
+                            </div>
+                          </div>
+                          <h3 className="text-lg font-bold text-on-surface group-hover:text-primary transition-colors leading-tight">{event.title}</h3>
                         </div>
                       </div>
-                      <h3 className="text-lg font-bold text-on-surface group-hover:text-primary transition-colors leading-tight">{event.title}</h3>
-                    </div>
-                  </div>
 
-                  {/* Impact & Affected Pairs */}
-                  <div className="border-t border-outline-variant/20 pt-4 flex flex-col justify-center mt-auto">
-                    <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Level of Effect</div>
-                    <div className="flex items-center gap-2 mb-2">
-                      {renderEffectMeter(event.effectLevel)}
-                      <span className={`text-xs font-bold ${event.effectLevel === 3 ? 'text-error' : event.effectLevel === 2 ? 'text-[#F7931A]' : 'text-primary'}`}>
-                        {event.impact}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {(event.affectedPairs || []).map(pair => (
-                        <span key={pair} className="text-[10px] bg-surface-container-high px-1.5 py-0.5 rounded border border-outline-variant/10 text-on-surface font-mono">
-                          {pair}
-                        </span>
-                      ))}
+                      {/* Impact & Affected Pairs */}
+                      <div className="border-t border-outline-variant/20 pt-4 flex flex-col justify-center mt-auto">
+                        <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Level of Effect</div>
+                        <div className="flex items-center gap-2 mb-2">
+                          {renderEffectMeter(event.effectLevel)}
+                          <span className={`text-xs font-bold ${event.effectLevel === 3 ? 'text-error' : event.effectLevel === 2 ? 'text-[#F7931A]' : 'text-primary'}`}>
+                            {event.impact}
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {(event.affectedPairs || []).map(pair => (
+                            <span key={pair} className="text-[10px] bg-surface-container-high px-1.5 py-0.5 rounded border border-outline-variant/10 text-on-surface font-mono">
+                              {pair}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      
                     </div>
                   </div>
-                  
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-          
-          <div className="flex justify-center mt-4">
-            <button className="bg-surface-container border border-outline-variant/30 text-on-surface px-6 py-2 rounded-full text-sm font-bold hover:bg-surface-variant transition-colors">
-              Load Older Events
-            </button>
-          </div>
+              
+              <Pagination 
+                currentPage={page}
+                onPageChange={setPage}
+                hasNextPage={newsEvents.length === limit}
+              />
+            </>
+          )}
         </div>
 
         {/* Right Column: AI Market Impact Analysis */}

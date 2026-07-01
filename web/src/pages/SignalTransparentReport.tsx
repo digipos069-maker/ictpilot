@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import Pagination from '../components/Pagination';
 
 export default function SignalTransparentReport() {
   useDocumentTitle("Signal Transparency");
+  const [page, setPage] = useState(1);
   
   // Mock data for the historical signals
   const signalHistory = [
@@ -149,20 +151,13 @@ export default function SignalTransparentReport() {
               </table>
             </div>
             
-            <div className="p-4 border-t border-outline-variant/20 flex justify-between items-center bg-surface-container-high/30">
-              <span className="text-xs text-on-surface-variant">Showing 1-8 of 1,240 Signals</span>
-              <div className="flex gap-1">
-                <button className="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors disabled:opacity-50" disabled>
-                  <span className="material-symbols-outlined text-[16px]">chevron_left</span>
-                </button>
-                <button className="w-8 h-8 rounded bg-primary/20 text-primary flex items-center justify-center font-bold text-sm">1</button>
-                <button className="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors text-sm">2</button>
-                <button className="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors text-sm">3</button>
-                <button className="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors">
-                  <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                </button>
-              </div>
-            </div>
+            <Pagination 
+              currentPage={page}
+              totalPages={155} // Math.ceil(1240 / 8)
+              totalItems={1240}
+              itemsPerPage={8}
+              onPageChange={setPage}
+            />
           </div>
         </div>
 
