@@ -38,7 +38,7 @@ export default function PriceTicker() {
   }, []);
 
   return (
-    <div className="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-lg border-t border-outline-variant/20 py-2 overflow-hidden">
+    <div className="fixed top-[72px] left-0 w-full z-40 bg-surface-container-lowest/90 backdrop-blur-lg border-b border-outline-variant/20 py-2 overflow-hidden">
       <div className="flex animate-marquee whitespace-nowrap">
         {/* Duplicate the list to create a seamless infinite loop */}
         {[...pairs, ...pairs, ...pairs].map((pair, index) => {
