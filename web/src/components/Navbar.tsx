@@ -1,9 +1,16 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from '../store/store';
+import { logout } from '../store/authSlice';
 import Logo from './Logo';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -11,6 +18,12 @@ export default function Navbar() {
 
   const closeMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    closeMenu();
+    navigate('/');
   };
 
   return (
@@ -31,10 +44,24 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link className="hidden md:block text-on-surface hover:text-primary transition-colors duration-200 font-bold" to="/login">Login</Link>
-          <Link to="/register" className="hidden md:block bg-[#032EA1] text-white px-6 py-2 rounded-full font-bold hover:scale-105 transition-all hover:brightness-110">
-              Start for free
-          </Link>
+          {isAuthenticated ? (
+            <div className="hidden md:flex items-center gap-4">
+              <Link className="text-on-surface font-bold hover:text-primary transition-colors duration-200 flex items-center gap-2" to="/ai-signal">
+                <span className="material-symbols-outlined text-[20px]">dashboard</span>
+                Dashboard
+              </Link>
+              <button onClick={handleLogout} className="bg-surface-container hover:bg-surface-variant text-error px-5 py-2 rounded-full font-bold transition-all text-sm border border-outline-variant/20">
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link className="hidden md:block text-on-surface hover:text-primary transition-colors duration-200 font-bold" to="/login">Login</Link>
+              <Link to="/register" className="hidden md:block bg-[#032EA1] text-white px-6 py-2 rounded-full font-bold hover:scale-105 transition-all hover:brightness-110">
+                  Start for free
+              </Link>
+            </>
+          )}
           
           {/* Mobile Menu Toggle Button */}
           <button 
@@ -59,13 +86,26 @@ export default function Navbar() {
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/news">News</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/education">Education</Link>
           
-          <div className="mt-8 flex flex-col gap-4">
-            <Link onClick={closeMenu} className="text-center text-on-surface font-bold text-lg hover:text-primary transition-colors" to="/login">
-              Login
-            </Link>
-            <Link to="/register" onClick={closeMenu} className="bg-[#032EA1] text-white px-6 py-4 rounded-full font-bold text-lg text-center w-full block">
-              Start for free
-            </Link>
+          <div className="mt-8 flex flex-col gap-4 pb-12">
+            {isAuthenticated ? (
+              <>
+                <Link to="/ai-signal" onClick={closeMenu} className="bg-[#032EA1] text-white px-6 py-4 rounded-full font-bold text-lg text-center w-full block">
+                  Go to Dashboard
+                </Link>
+                <button onClick={handleLogout} className="text-center text-error border border-outline-variant/30 font-bold text-lg hover:bg-surface-container py-4 rounded-full transition-colors">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link onClick={closeMenu} className="text-center text-on-surface font-bold text-lg hover:text-primary transition-colors" to="/login">
+                  Login
+                </Link>
+                <Link to="/register" onClick={closeMenu} className="bg-[#032EA1] text-white px-6 py-4 rounded-full font-bold text-lg text-center w-full block">
+                  Start for free
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
