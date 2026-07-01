@@ -1,7 +1,241 @@
 export default function News() {
+  // Mock data for the news feed
+  const newsEvents = [
+    {
+      id: 'EVT-001',
+      time: '14:30 GMT',
+      countdown: 'In 45 mins',
+      title: 'US Core CPI (MoM)',
+      country: 'USA',
+      impact: 'High', // High, Medium, Low
+      effectLevel: 3, // 1 to 3
+      affectedPairs: ['EUR/USD', 'XAU/USD', 'USD/JPY'],
+      forecast: '0.3%',
+      previous: '0.4%',
+      actual: '---',
+      status: 'upcoming'
+    },
+    {
+      id: 'EVT-002',
+      time: '18:00 GMT',
+      countdown: 'In 4 hrs',
+      title: 'FOMC Press Conference',
+      country: 'USA',
+      impact: 'High',
+      effectLevel: 3,
+      affectedPairs: ['ALL USD PAIRS', 'BTC/USD', 'SPX500'],
+      forecast: '---',
+      previous: '---',
+      actual: '---',
+      status: 'upcoming'
+    },
+    {
+      id: 'EVT-003',
+      time: '09:30 GMT',
+      countdown: 'Released',
+      title: 'UK Services PMI',
+      country: 'UK',
+      impact: 'Medium',
+      effectLevel: 2,
+      affectedPairs: ['GBP/USD', 'GBP/JPY'],
+      forecast: '53.4',
+      previous: '53.8',
+      actual: '53.1',
+      status: 'released'
+    },
+    {
+      id: 'EVT-004',
+      time: '01:30 GMT',
+      countdown: 'Released',
+      title: 'Australia Retail Sales',
+      country: 'AUS',
+      impact: 'Low',
+      effectLevel: 1,
+      affectedPairs: ['AUD/USD'],
+      forecast: '0.2%',
+      previous: '0.3%',
+      actual: '0.2%',
+      status: 'released'
+    }
+  ];
+
+  // Helper function to render the "Level of Effect" meter (flames)
+  const renderEffectMeter = (level: number) => {
+    return (
+      <div className="flex items-center gap-1">
+        {[1, 2, 3].map((i) => (
+          <span 
+            key={i} 
+            className={`material-symbols-outlined text-[16px] ${i <= level ? (level === 3 ? 'text-error animate-pulse' : level === 2 ? 'text-[#F7931A]' : 'text-primary') : 'text-outline-variant opacity-30'}`}
+          >
+            local_fire_department
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="pt-32 pb-24 px-8 max-w-container-max mx-auto min-h-[70vh] flex items-center justify-center">
-      <h1 className="font-headline-md text-headline-md text-primary">Welcome to News</h1>
+    <div className="pt-32 pb-24 px-8 max-w-container-max mx-auto min-h-screen flex flex-col gap-8">
+      {/* Page Header & Filters */}
+      <header className="mb-4 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <span className="font-label-caps text-label-caps text-secondary mb-2 block">Macro Intelligence</span>
+          <h1 className="font-headline-md text-headline-md text-on-surface">Economic Impact Feed</h1>
+          <p className="text-on-surface-variant max-w-2xl mt-2">
+            Track global economic events and instantly see their projected level of effect on your favorite trading pairs.
+          </p>
+        </div>
+        
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-full p-1 flex">
+            <button className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#032EA1]/20 text-primary border border-primary/30">All News</button>
+            <button className="px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">High Impact</button>
+            <button className="px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Crypto</button>
+          </div>
+          <div className="relative">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">calendar_today</span>
+            <select className="bg-surface-container-lowest border border-outline-variant/30 rounded-full py-2 pl-9 pr-8 text-xs font-bold text-on-surface focus:outline-none focus:border-primary appearance-none cursor-pointer">
+              <option>Today</option>
+              <option>Tomorrow</option>
+              <option>This Week</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-4">
+        
+        {/* Left/Center Column: Live Macro Feed */}
+        <div className="xl:col-span-2 flex flex-col gap-6">
+          <h2 className="text-xl font-bold text-on-surface border-b border-outline-variant/20 pb-4">Today's Events</h2>
+          
+          <div className="flex flex-col gap-4">
+            {newsEvents.map((event) => (
+              <div key={event.id} className="glass-card rounded-2xl p-5 border border-outline-variant/20 hover:border-primary/30 transition-colors group">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  
+                  {/* Time & Title */}
+                  <div className="flex gap-4 md:w-1/2">
+                    <div className="flex flex-col items-center justify-center min-w-[70px] bg-surface-container-lowest rounded-xl p-2 border border-outline-variant/10">
+                      <div className="text-sm font-bold text-on-surface">{event.time.split(' ')[0]}</div>
+                      <div className="text-[10px] text-on-surface-variant">{event.time.split(' ')[1]}</div>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${event.status === 'upcoming' ? 'bg-primary/20 text-primary' : 'bg-outline-variant/20 text-on-surface-variant'}`}>
+                          {event.countdown}
+                        </span>
+                        <div className="flex items-center gap-1 text-[10px] text-on-surface-variant font-bold border border-outline-variant/20 rounded px-1.5 py-0.5">
+                          <span className="material-symbols-outlined text-[12px]">public</span> {event.country}
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-bold text-on-surface group-hover:text-primary transition-colors">{event.title}</h3>
+                    </div>
+                  </div>
+
+                  {/* Impact & Affected Pairs */}
+                  <div className="md:w-1/4 border-l-0 md:border-l border-outline-variant/20 md:pl-6">
+                    <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Level of Effect</div>
+                    <div className="flex items-center gap-2 mb-2">
+                      {renderEffectMeter(event.effectLevel)}
+                      <span className={`text-xs font-bold ${event.effectLevel === 3 ? 'text-error' : event.effectLevel === 2 ? 'text-[#F7931A]' : 'text-primary'}`}>
+                        {event.impact}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {event.affectedPairs.map(pair => (
+                        <span key={pair} className="text-[10px] bg-surface-container-high px-1.5 py-0.5 rounded border border-outline-variant/10 text-on-surface font-mono">
+                          {pair}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Data Points */}
+                  <div className="md:w-1/4 flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 border-outline-variant/20 pt-4 md:pt-0">
+                    <div className="text-center">
+                      <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Prev</div>
+                      <div className="text-sm font-mono text-on-surface">{event.previous}</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Est</div>
+                      <div className="text-sm font-mono text-on-surface">{event.forecast}</div>
+                    </div>
+                    <div className="text-center bg-surface-container-lowest rounded-lg p-2 border border-outline-variant/10 min-w-[60px]">
+                      <div className="text-[10px] text-primary uppercase font-bold mb-0.5">Act</div>
+                      <div className="text-sm font-mono font-bold text-on-surface">{event.actual}</div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="flex justify-center mt-4">
+            <button className="bg-surface-container border border-outline-variant/30 text-on-surface px-6 py-2 rounded-full text-sm font-bold hover:bg-surface-variant transition-colors">
+              Load Older Events
+            </button>
+          </div>
+        </div>
+
+        {/* Right Column: AI Market Impact Analysis */}
+        <div className="flex flex-col gap-6">
+          <div className="glass-card rounded-2xl p-6 border border-primary/20 bg-gradient-to-b from-primary/5 to-transparent sticky top-24">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            
+            <div className="flex items-center gap-2 mb-6 border-b border-outline-variant/20 pb-4 relative z-10">
+              <span className="material-symbols-outlined text-primary">online_prediction</span>
+              <h3 className="text-lg font-bold text-on-surface">AI Impact Analysis</h3>
+            </div>
+            
+            <div className="mb-6 relative z-10">
+              <div className="inline-block px-3 py-1 bg-error/10 border border-error/20 text-error rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                High Volatility Warning
+              </div>
+              <h4 className="text-xl font-bold text-on-surface mb-2">US Core CPI (MoM)</h4>
+              <p className="text-sm text-on-surface-variant leading-relaxed mb-4">
+                Inflation data is expected to cause severe market turbulence. Our neural networks have simulated 10,000 potential outcomes based on historical reactions.
+              </p>
+              
+              <div className="space-y-3">
+                <div className="bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/10 border-l-2 border-l-secondary">
+                  <div className="text-xs font-bold text-on-surface mb-1 flex justify-between">
+                    <span>If Actual &gt; 0.3%</span>
+                    <span className="text-secondary">Bullish USD</span>
+                  </div>
+                  <div className="text-[11px] text-on-surface-variant">Expect immediate sell-off in XAU/USD (Target: 2005.00) and EUR/USD. High probability of DXY rally above 104.50.</div>
+                </div>
+                
+                <div className="bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/10 border-l-2 border-l-error">
+                  <div className="text-xs font-bold text-on-surface mb-1 flex justify-between">
+                    <span>If Actual &lt; 0.3%</span>
+                    <span className="text-error">Bearish USD</span>
+                  </div>
+                  <div className="text-[11px] text-on-surface-variant">Expect aggressive short-covering in Gold. XAU/USD projected to test 2035.00 resistance.</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-6 border-t border-outline-variant/20 pt-4 relative z-10">
+              <div className="text-xs font-bold text-on-surface uppercase tracking-wider mb-3">Affected Pairs Heatmap</div>
+              <div className="flex flex-wrap gap-2">
+                <div className="bg-error/10 text-error border border-error/20 px-3 py-1 rounded text-xs font-bold font-mono">XAU/USD</div>
+                <div className="bg-error/10 text-error border border-error/20 px-3 py-1 rounded text-xs font-bold font-mono">EUR/USD</div>
+                <div className="bg-[#F7931A]/10 text-[#F7931A] border border-[#F7931A]/20 px-3 py-1 rounded text-xs font-bold font-mono">BTC/USD</div>
+                <div className="bg-outline-variant/10 text-on-surface-variant border border-outline-variant/20 px-3 py-1 rounded text-xs font-bold font-mono">GBP/USD</div>
+              </div>
+            </div>
+            
+            <button className="w-full mt-6 bg-[#032EA1] text-white hover:brightness-110 transition-all py-3 rounded-full text-sm font-bold relative z-10 flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+              <span className="material-symbols-outlined text-[18px]">tune</span>
+              Auto-Adjust Stop Losses
+            </button>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }
