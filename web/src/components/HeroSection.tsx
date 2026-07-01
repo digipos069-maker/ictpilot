@@ -4,29 +4,40 @@ export default function HeroSection() {
   return (
     <>
 {/* Hero Section */}
-<section className="relative pt-40 pb-section-padding px-8 overflow-hidden bg-background">
-{/* Video Background */}
-<video 
-  autoPlay 
-  loop 
-  muted 
-  playsInline 
-  className="absolute inset-0 w-full h-full object-cover z-0 opacity-30 mix-blend-screen pointer-events-none"
->
-  <source src="/hero_bg.mp4" type="video/mp4" />
-</video>
+<section className="relative pt-28 pb-20 px-8 overflow-hidden bg-background">
+{/* Video Background & Styled Overlays */}
+<div className="absolute inset-0 z-0 pointer-events-none">
+  <video 
+    autoPlay 
+    loop 
+    muted 
+    playsInline 
+    className="w-full h-full object-cover opacity-40 mix-blend-screen"
+  >
+    <source src="/hero_bg.mp4" type="video/mp4" />
+  </video>
+  
+  {/* Strong Dark Overlay with Slight Blur for Depth */}
+  <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]"></div>
+  
+  {/* Futuristic Dot Pattern Overlay */}
+  <div className="absolute inset-0 opacity-30 mix-blend-overlay" style={{ backgroundImage: 'radial-gradient(rgba(253, 169, 255, 0.15) 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
+  
+  {/* Smooth Gradient Fade to Bottom */}
+  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
+</div>
 
 <div className="glow-circle absolute -top-40 -left-40 w-[600px] h-[600px] opacity-40 z-0"></div>
 <div className="glow-circle absolute top-1/2 -right-40 w-[800px] h-[800px] opacity-30 z-0"></div>
 <div className="max-w-container-max mx-auto text-center relative z-10">
-<span className="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-6 block uppercase">Powered by AI Market Analysis</span>
-<h1 className="font-display-lg text-display-lg md:text-display-lg mb-8 max-w-4xl mx-auto leading-tight">
+<span className="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-4 block uppercase">Powered by AI Market Analysis</span>
+<h1 className="font-display-lg text-display-lg md:text-display-lg mb-6 max-w-4xl mx-auto leading-tight">
                 Master the Markets with <span className="text-primary text-glow italic">AI-Driven Signals</span>
 </h1>
-<p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12">
+<p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-8">
                 Gain the trading edge with ultra-fast, highly accurate AI signals for Forex and Crypto markets, designed for institutional-level performance.
             </p>
-<div className="flex flex-col sm:flex-row justify-center gap-4 mb-20">
+<div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
 <Link to="/register" className="bg-[#032EA1] hover:brightness-110 text-white font-bold px-8 py-4 rounded-full transition-all flex items-center justify-center gap-2">
                     Get Started <span className="material-symbols-outlined">arrow_forward</span>
 </Link>
