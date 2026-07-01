@@ -24,6 +24,13 @@ export class NewsController {
     return this.newsService.getNewsFeed(filter, date, pageNum, limitNum);
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'Fetch a single news event by ID' })
+  @ApiParam({ name: 'id', description: 'The ID of the News Event' })
+  async getNewsById(@Param('id') id: string) {
+    return this.newsService.getNewsById(id);
+  }
+
   @Get(':id/ai-analysis')
   @ApiOperation({ summary: 'Fetch deep-dive AI simulation scenarios and heatmap data for a specific event' })
   @ApiParam({ name: 'id', description: 'The ID of the News Event' })

@@ -71,6 +71,29 @@
         "description": "Fetches the deep-dive AI simulation scenarios and heatmap data for a specific event."
       },
       "response": []
+    },
+    {
+      "name": "Get News Detail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/news/YOUR_EVENT_ID",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "v1",
+            "news",
+            "YOUR_EVENT_ID"
+          ]
+        },
+        "description": "Fetches a single news event detail by its ID."
+      },
+      "response": []
     }
   ]
 }

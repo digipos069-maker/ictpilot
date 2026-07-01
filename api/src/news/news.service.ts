@@ -59,6 +59,18 @@ export class NewsService {
     };
   }
 
+  async getNewsById(id: string): Promise<News> {
+    const news = await this.prisma.news.findUnique({
+      where: { id },
+    });
+
+    if (!news) {
+      throw new NotFoundException(`News with ID ${id} not found`);
+    }
+
+    return news;
+  }
+
   async getAiAnalysis(newsId: string): Promise<AiImpactAnalysis> {
     const analysis = await this.prisma.aiImpactAnalysis.findUnique({
       where: { eventId: newsId },
