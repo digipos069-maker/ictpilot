@@ -3,8 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../store/authSlice';
 import Logo from '../components/Logo';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function Register() {
+  useDocumentTitle("Register");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   

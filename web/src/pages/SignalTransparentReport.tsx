@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 export default function SignalTransparentReport() {
+  useDocumentTitle("Signal Transparency");
+  
   // Mock data for the historical signals
   const signalHistory = [
     { id: 'SIG-9842', date: 'Oct 28, 2026', asset: 'XAU/USD', action: 'Sell', entry: '2024.50', exit: '2012.00', result: 'Win', pips: '+125', rr: '1:3.2' },

@@ -1,4 +1,7 @@
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 export default function AISignal() {
+  useDocumentTitle("Live Signal");
   return (
     <div className="pt-32 pb-24 px-8 max-w-container-max mx-auto min-h-screen flex flex-col gap-8">
       {/* Page Header */}

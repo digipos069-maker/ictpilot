@@ -1,4 +1,7 @@
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 export default function News() {
+  useDocumentTitle("Market News");
   // Mock data for the news feed
   const newsEvents = [
     {

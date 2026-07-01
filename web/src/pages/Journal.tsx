@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 export default function Journal() {
+  useDocumentTitle("Trading Journal");
+
   // Mock data for the trade log
   const trades = [
     {

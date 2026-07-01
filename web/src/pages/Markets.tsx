@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 export default function Markets() {
+  useDocumentTitle("Live Markets");
+  
   return (
     <div className="pt-32 pb-24 px-8 max-w-container-max mx-auto min-h-screen">
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12">

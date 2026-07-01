@@ -7,8 +7,10 @@ import Ecosystem from '../components/Ecosystem';
 import Testimonials from '../components/Testimonials';
 import FAQ from '../components/FAQ';
 import CTA from '../components/CTA';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function Home() {
+  useDocumentTitle("Home");
   return (
     <>
       <HeroSection />
