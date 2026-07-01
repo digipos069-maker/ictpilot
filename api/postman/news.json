@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "News Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get News Feed",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_TOKEN_HERE"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/news?filter=HIGH&date=today",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "v1",
+            "news"
+          ],
+          "query": [
+            {
+              "key": "filter",
+              "value": "HIGH",
+              "description": "Filter by Impact Level (HIGH, MEDIUM, LOW)"
+            },
+            {
+              "key": "date",
+              "value": "today",
+              "description": "Filter by Timeframe (today, tomorrow, week)"
+            }
+          ]
+        },
+        "description": "Fetches the paginated list of news events. Supports filtering by Impact Level and Timeframe."
+      },
+      "response": []
+    },
+    {
+      "name": "Get AI Impact Analysis",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_TOKEN_HERE"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/news/YOUR_EVENT_ID/ai-analysis",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "v1",
+            "news",
+            "YOUR_EVENT_ID",
+            "ai-analysis"
+          ]
+        },
+        "description": "Fetches the deep-dive AI simulation scenarios and heatmap data for a specific event."
+      },
+      "response": []
+    }
+  ]
+}

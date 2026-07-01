@@ -39,8 +39,7 @@
                 "auth",
                 "register"
               ]
-            },
-            "description": "Creates a new user account and hashes the password."
+            }
           },
           "response": []
         },
@@ -74,8 +73,88 @@
                 "auth",
                 "login"
               ]
-            },
-            "description": "Authenticates a user and returns a JWT access token."
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Signals (Example)",
+      "description": "Example endpoints demonstrating subscription plan guards.",
+      "item": [
+        {
+          "name": "Basic Signals (All Users)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/signals/basic",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "signals",
+                "basic"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Advanced Signals (Plus & Pro)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/signals/advanced",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "signals",
+                "advanced"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Premium Signals (Pro Only)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/signals/premium",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "signals",
+                "premium"
+              ]
+            }
           },
           "response": []
         }

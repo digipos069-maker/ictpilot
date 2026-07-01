@@ -1,8 +1,10 @@
 import { Module, Global } from '@nestjs/common';
 import { SubscriptionsService } from './subscriptions.service';
+import { SubscriptionsController } from './subscriptions.controller';
 
 @Global()
 @Module({
+  controllers: [SubscriptionsController],
   providers: [SubscriptionsService],
   exports: [SubscriptionsService],
 })
