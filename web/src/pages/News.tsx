@@ -128,15 +128,15 @@ export default function News() {
           {error && <div className="text-error py-4">Error loading news: {error}</div>}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {newsEvents.map((event) => (
+            {(Array.isArray(newsEvents) ? newsEvents : []).map((event) => (
               <div key={event.id} className="glass-card rounded-2xl p-5 border border-outline-variant/20 hover:border-primary/30 transition-colors group">
                 <div className="flex flex-col gap-4 h-full">
                   
                   {/* Time & Title */}
                   <div className="flex gap-4">
                     <div className="flex flex-col items-center justify-center min-w-[70px] bg-surface-container-lowest rounded-xl p-2 border border-outline-variant/10">
-                      <div className="text-sm font-bold text-on-surface">{event.time.split(' ')[0]}</div>
-                      <div className="text-[10px] text-on-surface-variant">{event.time.split(' ')[1]}</div>
+                      <div className="text-sm font-bold text-on-surface">{event.time ? event.time.split(' ')[0] : '--:--'}</div>
+                      <div className="text-[10px] text-on-surface-variant">{event.time && event.time.split(' ').length > 1 ? event.time.split(' ')[1] : ''}</div>
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
@@ -158,7 +158,7 @@ export default function News() {
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {event.affectedPairs.map(pair => (
+                      {(event.affectedPairs || []).map(pair => (
                         <span key={pair} className="text-[10px] bg-surface-container-high px-1.5 py-0.5 rounded border border-outline-variant/10 text-on-surface font-mono">
                           {pair}
                         </span>
