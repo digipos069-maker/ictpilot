@@ -24,6 +24,7 @@ export default function Navbar() {
         <div className="hidden md:flex gap-8 items-center">
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/markets">Markets</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/ai-signal">AI Signal</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/signal-report">Transparency</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/journal">Journal</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/news">News</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" to="/education">Education</Link>
@@ -53,6 +54,7 @@ export default function Navbar() {
         <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden pt-28 px-8 flex flex-col gap-6 h-screen overflow-y-auto">
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/markets">Markets</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/ai-signal">AI Signal</Link>
+          <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/signal-report">Transparency</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/journal">Journal</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/news">News</Link>
           <Link onClick={closeMenu} className="text-2xl font-bold text-on-surface hover:text-primary transition-colors" to="/education">Education</Link>

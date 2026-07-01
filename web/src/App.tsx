@@ -11,6 +11,7 @@ import AISignal from './pages/AISignal';
 import Journal from './pages/Journal';
 import News from './pages/News';
 import Education from './pages/Education';
+import SignalTransparentReport from './pages/SignalTransparentReport';
 
 function App() {
   useEffect(() => {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/journal" element={<Journal />} />
         <Route path="/news" element={<News />} />
         <Route path="/education" element={<Education />} />
+        <Route path="/signal-report" element={<SignalTransparentReport />} />
       </Routes>
       <Footer />
       <PriceTicker />
