@@ -11,9 +11,9 @@ export default function HeroSection() {
   loop 
   muted 
   playsInline 
-  className="absolute inset-0 w-full h-full object-cover z-0 opacity-20"
+  className="absolute inset-0 w-full h-full object-cover z-0 opacity-30 mix-blend-screen pointer-events-none"
 >
-  <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4" />
+  <source src="/hero_bg.mp4" type="video/mp4" />
 </video>
 
 <div className="glow-circle absolute -top-40 -left-40 w-[600px] h-[600px] opacity-40 z-0"></div>
