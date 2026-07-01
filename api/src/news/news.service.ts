@@ -63,6 +63,7 @@ export class NewsService {
         },
       },
       update: {
+        category: data.category,
         impact: data.impact,
         effectLevel: data.effectLevel,
         affectedPairs: data.affectedPairs || [],
@@ -73,6 +74,7 @@ export class NewsService {
         title: data.title,
         eventTime: new Date(data.eventTime),
         country: data.country,
+        category: data.category,
         impact: data.impact,
         effectLevel: data.effectLevel,
         affectedPairs: data.affectedPairs || [],

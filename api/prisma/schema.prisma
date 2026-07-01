@@ -56,11 +56,18 @@ enum EventStatus {
   RELEASED
 }
 
+enum NewsCategory {
+  FOREX
+  CRYPTO
+  STOCK
+}
+
 model News {
   id             String          @id @default(uuid())
   eventTime      DateTime
   title          String
   country        String
+  category       NewsCategory
   impact         ImpactLevel
   effectLevel    Int             // 1, 2, or 3
   affectedPairs  String[]        

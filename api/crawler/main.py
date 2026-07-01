@@ -44,8 +44,9 @@ def fetch_economic_data():
     mock_events = [
         {
             "title": "US Non-Farm Payrolls (NFP)",
-            "eventTime": datetime.datetime.now().isoformat() + "Z",
+            "eventTime": datetime.datetime.now(datetime.timezone.utc).isoformat().replace('+00:00', 'Z'),
             "country": "USA",
+            "category": "FOREX",
             "impact": "HIGH",
             "effectLevel": 3,
             "affectedPairs": ["EUR/USD", "USD/JPY", "GBP/USD"],
@@ -54,8 +55,9 @@ def fetch_economic_data():
         },
         {
             "title": "Fed Interest Rate Decision",
-            "eventTime": (datetime.datetime.now() + datetime.timedelta(hours=2)).isoformat() + "Z",
+            "eventTime": (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=2)).isoformat().replace('+00:00', 'Z'),
             "country": "USA",
+            "category": "FOREX",
             "impact": "HIGH",
             "effectLevel": 3,
             "affectedPairs": ["BTC/USD", "EUR/USD", "XAU/USD"],
@@ -64,8 +66,9 @@ def fetch_economic_data():
         },
         {
             "title": "SEC Bitcoin ETF Regulatory Decision",
-            "eventTime": (datetime.datetime.now() + datetime.timedelta(days=1)).isoformat() + "Z",
+            "eventTime": (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=1)).isoformat().replace('+00:00', 'Z'),
             "country": "USA",
+            "category": "CRYPTO",
             "impact": "HIGH",
             "effectLevel": 3,
             "affectedPairs": ["BTC/USD", "ETH/USD"],
@@ -74,8 +77,9 @@ def fetch_economic_data():
         },
         {
             "title": "ECB Monetary Policy Statement",
-            "eventTime": (datetime.datetime.now() + datetime.timedelta(days=2)).isoformat() + "Z",
+            "eventTime": (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=2)).isoformat().replace('+00:00', 'Z'),
             "country": "EUR",
+            "category": "FOREX",
             "impact": "HIGH",
             "effectLevel": 3,
             "affectedPairs": ["EUR/USD", "EUR/GBP", "EUR/JPY"],
@@ -84,8 +88,9 @@ def fetch_economic_data():
         },
         {
             "title": "Ethereum Dencun Network Upgrade",
-            "eventTime": (datetime.datetime.now() + datetime.timedelta(days=3)).isoformat() + "Z",
+            "eventTime": (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=3)).isoformat().replace('+00:00', 'Z'),
             "country": "GLOBAL",
+            "category": "CRYPTO",
             "impact": "HIGH",
             "effectLevel": 2,
             "affectedPairs": ["ETH/USD", "ETH/BTC"],

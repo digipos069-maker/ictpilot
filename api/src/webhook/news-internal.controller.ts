@@ -1,5 +1,5 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
-import { NewsService } from './news.service';
+import { NewsService } from '../news/news.service';
 import { ApiKeyGuard } from '../auth/guards/api-key.guard';
 import { ApiTags, ApiOperation, ApiSecurity } from '@nestjs/swagger';
 
