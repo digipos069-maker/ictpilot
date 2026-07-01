@@ -150,8 +150,9 @@ export default function NewsDetail() {
                     <span className="material-symbols-outlined text-[16px] text-primary">link</span>
                     Source Reference
                   </h3>
-                  <a href={event.source} target="_blank" rel="noreferrer" className="text-on-surface hover:text-primary transition-colors font-bold text-sm break-all">
-                    {event.source}
+                  <a href={event.source} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-container-highest border border-outline-variant/30 px-6 py-3 rounded-full text-on-surface transition-all w-fit font-bold shadow-sm hover:shadow-md mt-2">
+                    <span>View Original Source</span>
+                    <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                   </a>
                 </div>
               )}
