@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PriceTicker from './components/PriceTicker';
+import TradingLoader from './components/TradingLoader';
 
 // Pages
 import Home from './pages/Home';
@@ -14,6 +15,10 @@ import Education from './pages/Education';
 import SignalTransparentReport from './pages/SignalTransparentReport';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
+
+  // Scroll animations
   useEffect(() => {
     const handleScroll = () => {
       const cards = document.querySelectorAll('.glass-card');
@@ -29,8 +34,22 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Global Page Loading State
+  useEffect(() => {
+    setIsLoading(true);
+    // Simulate network/AI analysis delay on route change
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      window.scrollTo(0, 0); // Scroll to top on route change
+    }, 1500); 
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
   return (
     <div className="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white overflow-x-hidden">
+      {isLoading && <TradingLoader fullScreen={true} />}
+      
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
