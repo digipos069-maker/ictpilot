@@ -21,9 +21,14 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
     closeMenu();
     navigate('/');
+    
+    // Defer the state change slightly so the UI doesn't flash the logged-out 
+    // buttons before the menu fully closes and navigation occurs.
+    setTimeout(() => {
+      dispatch(logout());
+    }, 50);
   };
 
   return (
