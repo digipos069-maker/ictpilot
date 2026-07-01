@@ -14,6 +14,8 @@ import News from './pages/News';
 import Education from './pages/Education';
 import SignalTransparentReport from './pages/SignalTransparentReport';
 import Login from './pages/Login';
+import Register from './pages/Register';
+import FloatingTelegram from './components/FloatingTelegram';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,12 +49,13 @@ function App() {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
   return (
     <div className="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white overflow-x-hidden">
       {isLoading && <TradingLoader fullScreen={true} />}
       
-      {/* Hide Navbar & Footer on Login page if desired, but we'll keep them for consistency or remove them if it conflicts. Actually, login pages usually don't have the main navbar. Since it's inside App, we can conditionally hide it, but the user didn't specify. I'll just leave it. */}
-      {location.pathname !== '/login' && <Navbar />}
+      {!isAuthPage && <Navbar />}
       
       <Routes>
         <Route path="/" element={<Home />} />
@@ -63,10 +66,12 @@ function App() {
         <Route path="/education" element={<Education />} />
         <Route path="/signal-report" element={<SignalTransparentReport />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       
-      {location.pathname !== '/login' && <Footer />}
-      {location.pathname !== '/login' && <PriceTicker />}
+      {!isAuthPage && <Footer />}
+      {!isAuthPage && <PriceTicker />}
+      {!isAuthPage && <FloatingTelegram />}
     </div>
   );
 }

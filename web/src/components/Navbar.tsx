@@ -32,9 +32,9 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           <Link className="hidden md:block text-on-surface hover:text-primary transition-colors duration-200 font-bold" to="/login">Login</Link>
-          <button className="hidden md:block bg-[#032EA1] text-white px-6 py-2 rounded-full font-bold hover:scale-105 transition-all hover:brightness-110">
+          <Link to="/register" className="hidden md:block bg-[#032EA1] text-white px-6 py-2 rounded-full font-bold hover:scale-105 transition-all hover:brightness-110">
               Start for free
-          </button>
+          </Link>
           
           {/* Mobile Menu Toggle Button */}
           <button 
@@ -63,9 +63,9 @@ export default function Navbar() {
             <Link onClick={closeMenu} className="text-center text-on-surface font-bold text-lg hover:text-primary transition-colors" to="/login">
               Login
             </Link>
-            <button onClick={closeMenu} className="bg-[#032EA1] text-white px-6 py-4 rounded-full font-bold text-lg text-center w-full">
+            <Link to="/register" onClick={closeMenu} className="bg-[#032EA1] text-white px-6 py-4 rounded-full font-bold text-lg text-center w-full block">
               Start for free
-            </button>
+            </Link>
           </div>
         </div>
       )}
