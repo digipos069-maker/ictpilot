@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import CoreStats from './components/CoreStats';
-import FeaturesSection from './components/FeaturesSection';
-import HowItWorks from './components/HowItWorks';
-import SecuritySection from './components/SecuritySection';
-import Ecosystem from './components/Ecosystem';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import CTA from './components/CTA';
 import Footer from './components/Footer';
 import PriceTicker from './components/PriceTicker';
+
+// Pages
+import Home from './pages/Home';
+import Markets from './pages/Markets';
+import AISignal from './pages/AISignal';
+import Journal from './pages/Journal';
+import News from './pages/News';
+import Education from './pages/Education';
 
 function App() {
   useEffect(() => {
@@ -31,15 +31,14 @@ function App() {
   return (
     <div className="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white overflow-x-hidden">
       <Navbar />
-      <HeroSection />
-      <CoreStats />
-      <FeaturesSection />
-      <HowItWorks />
-      <SecuritySection />
-      <Ecosystem />
-      <Testimonials />
-      <FAQ />
-      <CTA />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/markets" element={<Markets />} />
+        <Route path="/ai-signal" element={<AISignal />} />
+        <Route path="/journal" element={<Journal />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/education" element={<Education />} />
+      </Routes>
       <Footer />
       <PriceTicker />
     </div>
