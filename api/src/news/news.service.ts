@@ -52,4 +52,33 @@ export class NewsService {
 
     return analysis;
   }
+
+  async upsertNews(data: any): Promise<News> {
+    return this.prisma.news.upsert({
+      where: {
+        title_eventTime_country: {
+          title: data.title,
+          eventTime: new Date(data.eventTime),
+          country: data.country,
+        },
+      },
+      update: {
+        impact: data.impact,
+        effectLevel: data.effectLevel,
+        affectedPairs: data.affectedPairs || [],
+        status: data.status,
+        source: data.source,
+      },
+      create: {
+        title: data.title,
+        eventTime: new Date(data.eventTime),
+        country: data.country,
+        impact: data.impact,
+        effectLevel: data.effectLevel,
+        affectedPairs: data.affectedPairs || [],
+        status: data.status,
+        source: data.source,
+      },
+    });
+  }
 }

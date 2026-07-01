@@ -8,38 +8,89 @@ import os
 # Configuration
 WEBHOOK_URL = 'http://localhost:3000/api/v1/internal/news'
 API_KEY = os.environ.get('INTERNAL_API_KEY', 'my-super-secret-key')
-# Target URL (Example: investing.com economic calendar or similar)
-TARGET_URL = 'https://example-economic-calendar.com/calendar'
+# Top 5 Forex News Sources
+FOREX_SOURCES = [
+    'https://www.forexfactory.com/calendar',
+    'https://www.investing.com/economic-calendar/',
+    'https://www.dailyfx.com/economic-calendar',
+    'https://www.fxstreet.com/economic-calendar',
+    'https://www.myfxbook.com/forex-economic-calendar'
+]
+
+# Top 5 Crypto News Sources
+CRYPTO_SOURCES = [
+    'https://www.coindesk.com/',
+    'https://cointelegraph.com/',
+    'https://cryptoslate.com/',
+    'https://decrypt.co/',
+    'https://www.theblock.co/'
+]
+
+ALL_SOURCES = FOREX_SOURCES + CRYPTO_SOURCES
 
 def fetch_economic_data():
-    print(f"Fetching data from {TARGET_URL}...")
-    # headers = {'User-Agent': 'Mozilla/5.0 ...'}
-    # response = requests.get(TARGET_URL, headers=headers)
-    # soup = BeautifulSoup(response.text, 'html.parser')
+    mock_events = []
     
-    # --- MOCK DATA FOR DEMONSTRATION ---
-    # In a real scenario, you would parse the 'soup' object to extract these fields.
+    for source in ALL_SOURCES:
+        print(f"Fetching data from {source}...")
+        # headers = {'User-Agent': 'Mozilla/5.0 ...'}
+        # response = requests.get(source, headers=headers)
+        # soup = BeautifulSoup(response.text, 'html.parser')
+        # ... your custom parsing logic per site goes here ...
+        
+        # We assign the source string directly into the mock events below
+    
     print("Parsing HTML...")
     mock_events = [
         {
-            "title": "US Core CPI (MoM)",
-            "eventTime": datetime.datetime.now().isoformat() + "Z", # Happened right now for testing
+            "title": "US Non-Farm Payrolls (NFP)",
+            "eventTime": datetime.datetime.now().isoformat() + "Z",
             "country": "USA",
             "impact": "HIGH",
             "effectLevel": 3,
-            "affectedPairs": ["EUR/USD", "XAU/USD"],
+            "affectedPairs": ["EUR/USD", "USD/JPY", "GBP/USD"],
             "status": "UPCOMING",
-            "source": TARGET_URL
+            "source": FOREX_SOURCES[0]
         },
         {
-            "title": "ECB Press Conference",
+            "title": "Fed Interest Rate Decision",
+            "eventTime": (datetime.datetime.now() + datetime.timedelta(hours=2)).isoformat() + "Z",
+            "country": "USA",
+            "impact": "HIGH",
+            "effectLevel": 3,
+            "affectedPairs": ["BTC/USD", "EUR/USD", "XAU/USD"],
+            "status": "UPCOMING",
+            "source": FOREX_SOURCES[1]
+        },
+        {
+            "title": "SEC Bitcoin ETF Regulatory Decision",
             "eventTime": (datetime.datetime.now() + datetime.timedelta(days=1)).isoformat() + "Z",
+            "country": "USA",
+            "impact": "HIGH",
+            "effectLevel": 3,
+            "affectedPairs": ["BTC/USD", "ETH/USD"],
+            "status": "UPCOMING",
+            "source": CRYPTO_SOURCES[0]
+        },
+        {
+            "title": "ECB Monetary Policy Statement",
+            "eventTime": (datetime.datetime.now() + datetime.timedelta(days=2)).isoformat() + "Z",
             "country": "EUR",
             "impact": "HIGH",
             "effectLevel": 3,
-            "affectedPairs": ["EUR/USD", "EUR/GBP"],
+            "affectedPairs": ["EUR/USD", "EUR/GBP", "EUR/JPY"],
             "status": "UPCOMING",
-            "source": TARGET_URL
+            "source": FOREX_SOURCES[2]
+        },
+        {
+            "title": "Ethereum Dencun Network Upgrade",
+            "eventTime": (datetime.datetime.now() + datetime.timedelta(days=3)).isoformat() + "Z",
+            "country": "GLOBAL",
+            "impact": "HIGH",
+            "effectLevel": 2,
+            "affectedPairs": ["ETH/USD", "ETH/BTC"],
+            "status": "UPCOMING",
+            "source": CRYPTO_SOURCES[1]
         }
     ]
     
