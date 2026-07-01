@@ -1,10 +1,72 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../store/authSlice';
 import Logo from '../components/Logo';
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  // Form State
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
+  // API State
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // The API only expects email and password currently based on Postman specs.
+      // We can send username too, but the backend might ignore it.
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to register account');
+      }
+
+      // If API returns token on register (optional), we can log them in immediately.
+      // Usually register returns 201 Created and requires login, but let's assume 
+      // we navigate to login or dashboard. If token returned:
+      if (data.token) {
+        dispatch(loginSuccess(data.token));
+        navigate('/ai-signal');
+      } else {
+        // If no token, navigate to login
+        navigate('/login');
+      }
+
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center pt-24 pb-12 px-4 relative overflow-hidden">
@@ -33,7 +95,8 @@ export default function Register() {
         {/* Register Card */}
         <div className="glass-card rounded-3xl p-8 border border-outline-variant/30 shadow-2xl relative overflow-hidden">
           
-          <form className="flex flex-col gap-5">
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+            {error && <div className="bg-error/10 text-error border border-error/20 p-3 rounded-xl text-sm font-bold text-center">{error}</div>}
             
             {/* Username Field */}
             <div className="flex flex-col gap-2">
@@ -46,6 +109,8 @@ export default function Register() {
                   type="text" 
                   id="username"
                   placeholder="TraderPro99"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="w-full bg-surface-container/50 border border-outline-variant/30 text-on-surface rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:border-[#032EA1] focus:ring-1 focus:ring-[#032EA1]/50 transition-all placeholder:text-on-surface-variant/40"
                 />
               </div>
@@ -61,7 +126,10 @@ export default function Register() {
                 <input 
                   type="email" 
                   id="email"
+                  required
                   placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-surface-container/50 border border-outline-variant/30 text-on-surface rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:border-[#032EA1] focus:ring-1 focus:ring-[#032EA1]/50 transition-all placeholder:text-on-surface-variant/40"
                 />
               </div>
@@ -77,7 +145,10 @@ export default function Register() {
                 <input 
                   type={showPassword ? "text" : "password"}
                   id="password"
+                  required
                   placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-surface-container/50 border border-outline-variant/30 text-on-surface rounded-xl pl-12 pr-12 py-3 focus:outline-none focus:border-[#032EA1] focus:ring-1 focus:ring-[#032EA1]/50 transition-all placeholder:text-on-surface-variant/40 tracking-wider"
                 />
                 <button 
@@ -102,7 +173,10 @@ export default function Register() {
                 <input 
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
+                  required
                   placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full bg-surface-container/50 border border-outline-variant/30 text-on-surface rounded-xl pl-12 pr-12 py-3 focus:outline-none focus:border-[#032EA1] focus:ring-1 focus:ring-[#032EA1]/50 transition-all placeholder:text-on-surface-variant/40 tracking-wider"
                 />
                 <button 
@@ -121,7 +195,8 @@ export default function Register() {
             <div className="flex items-start gap-3 mt-2 ml-1">
               <input 
                 type="checkbox" 
-                id="terms" 
+                id="terms"
+                required
                 className="w-4 h-4 mt-0.5 rounded border-outline-variant/30 bg-surface-container/50 text-[#032EA1] focus:ring-[#032EA1] focus:ring-offset-background"
               />
               <label htmlFor="terms" className="text-xs text-on-surface-variant cursor-pointer select-none leading-relaxed">
@@ -132,9 +207,15 @@ export default function Register() {
             {/* Submit Button */}
             <button 
               type="submit" 
-              className="mt-4 bg-[#032EA1] hover:brightness-110 text-white w-full py-3.5 rounded-xl font-bold text-lg transition-all shadow-[0_0_20px_rgba(3,46,161,0.3)] hover:shadow-[0_0_25px_rgba(3,46,161,0.5)] active:scale-[0.98]"
+              disabled={isLoading}
+              className={`mt-4 bg-[#032EA1] hover:brightness-110 text-white w-full py-3.5 rounded-xl font-bold text-lg transition-all shadow-[0_0_20px_rgba(3,46,161,0.3)] hover:shadow-[0_0_25px_rgba(3,46,161,0.5)] active:scale-[0.98] ${isLoading ? 'opacity-70 cursor-not-allowed flex items-center justify-center gap-2' : ''}`}
             >
-              Create Account
+              {isLoading ? (
+                <>
+                  <span className="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+                  Creating Account...
+                </>
+              ) : 'Create Account'}
             </button>
           </form>
 
