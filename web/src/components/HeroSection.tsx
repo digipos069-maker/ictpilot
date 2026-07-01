@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function HeroSection() {
   return (
     <>
@@ -25,14 +27,14 @@ export default function HeroSection() {
                 Gain the trading edge with ultra-fast, highly accurate AI signals for Forex and Crypto markets, designed for institutional-level performance.
             </p>
 <div className="flex flex-col sm:flex-row justify-center gap-4 mb-20">
-<button className="bg-[#032EA1] hover:brightness-110 text-white font-bold px-8 py-4 rounded-full transition-all flex items-center justify-center gap-2">
+<Link to="/register" className="bg-[#032EA1] hover:brightness-110 text-white font-bold px-8 py-4 rounded-full transition-all flex items-center justify-center gap-2">
                     Get Started <span className="material-symbols-outlined">arrow_forward</span>
-</button>
-<div className="gradient-border-btn cursor-pointer group">
-<div className="btn-content text-on-surface group-hover:bg-transparent transition-all">
-                        View Ecosystem
+</Link>
+<Link to="/ai-signal" className="gradient-border-btn cursor-pointer group flex">
+<div className="btn-content text-on-surface group-hover:bg-transparent transition-all w-full">
+                        View Live Signal
                     </div>
-</div>
+</Link>
 </div>
 {/* Stats & Swap Widget Preview */}
 <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">

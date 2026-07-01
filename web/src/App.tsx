@@ -44,7 +44,7 @@ function App() {
     const timer = setTimeout(() => {
       setIsLoading(false);
       window.scrollTo(0, 0); // Scroll to top on route change
-    }, 1500); 
+    }, 800); 
 
     return () => clearTimeout(timer);
   }, [location.pathname]);
