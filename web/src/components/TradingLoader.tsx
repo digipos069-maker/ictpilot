@@ -32,7 +32,7 @@ export default function TradingLoader({ fullScreen = false }: TradingLoaderProps
       `}</style>
 
       {/* Candlestick Animation Container */}
-      <div className="flex items-center justify-center gap-4 h-24">
+      <div className="flex items-center justify-center gap-4 h-24 scale-50">
         
         {/* Candlestick 1 */}
         <div className="relative flex items-center justify-center">
