@@ -11,11 +11,17 @@ export class NewsController {
   @ApiOperation({ summary: 'Fetch paginated list of news events' })
   @ApiQuery({ name: 'filter', required: false, description: 'Filter by Impact Level (HIGH, MEDIUM, LOW)' })
   @ApiQuery({ name: 'date', required: false, description: 'Filter by Timeframe (today, tomorrow, week)' })
+  @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default 1)' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default 20)' })
   async getNews(
     @Query('filter') filter?: string,
     @Query('date') date?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
   ) {
-    return this.newsService.getNewsFeed(filter, date);
+    const pageNum = page ? parseInt(page, 10) : 1;
+    const limitNum = limit ? parseInt(limit, 10) : 20;
+    return this.newsService.getNewsFeed(filter, date, pageNum, limitNum);
   }
 
   @Get(':id/ai-analysis')

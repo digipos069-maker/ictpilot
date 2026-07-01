@@ -31,6 +31,16 @@
               "key": "date",
               "value": "today",
               "description": "Filter by Timeframe (today, tomorrow, week)"
+            },
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Page number for pagination"
+            },
+            {
+              "key": "limit",
+              "value": "20",
+              "description": "Items per page for pagination"
             }
           ]
         },

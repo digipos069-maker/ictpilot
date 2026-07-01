@@ -6,7 +6,7 @@ import { ImpactLevel, News, AiImpactAnalysis } from '@prisma/client';
 export class NewsService {
   constructor(private prisma: PrismaService) {}
 
-  async getNewsFeed(impact?: string, timeframe?: string): Promise<News[]> {
+  async getNewsFeed(impact?: string, timeframe?: string, page: number = 1, limit: number = 20) {
     const where: any = {};
 
     if (impact) {
@@ -36,10 +36,27 @@ export class NewsService {
       };
     }
 
-    return this.prisma.news.findMany({
-      where,
-      orderBy: { eventTime: 'asc' },
-    });
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.prisma.news.findMany({
+        where,
+        orderBy: { eventTime: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.news.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async getAiAnalysis(newsId: string): Promise<AiImpactAnalysis> {
