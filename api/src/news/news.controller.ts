@@ -1,11 +1,8 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { NewsService } from './news.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ApiTags, ApiOperation, ApiQuery, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiQuery, ApiParam } from '@nestjs/swagger';
 
 @ApiTags('news')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('api/v1/news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}

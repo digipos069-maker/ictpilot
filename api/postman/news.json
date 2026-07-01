@@ -8,12 +8,7 @@
       "name": "Get News Feed",
       "request": {
         "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer YOUR_TOKEN_HERE"
-          }
-        ],
+        "header": [],
         "url": {
           "raw": "http://localhost:3000/api/v1/news?filter=HIGH&date=today",
           "protocol": "http",
@@ -47,12 +42,7 @@
       "name": "Get AI Impact Analysis",
       "request": {
         "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer YOUR_TOKEN_HERE"
-          }
-        ],
+        "header": [],
         "url": {
           "raw": "http://localhost:3000/api/v1/news/YOUR_EVENT_ID/ai-analysis",
           "protocol": "http",

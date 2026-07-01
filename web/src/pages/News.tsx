@@ -1,66 +1,72 @@
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import type { RootState } from '../store/store';
+
+interface NewsEvent {
+  id: string;
+  time: string;
+  countdown: string;
+  title: string;
+  country: string;
+  impact: string;
+  effectLevel: number;
+  affectedPairs: string[];
+  forecast: string;
+  previous: string;
+  actual: string;
+  status: string;
+}
 
 export default function News() {
   useDocumentTitle("Market News");
-  // Mock data for the news feed
-  const newsEvents = [
-    {
-      id: 'EVT-001',
-      time: '14:30 GMT',
-      countdown: 'In 45 mins',
-      title: 'US Core CPI (MoM)',
-      country: 'USA',
-      impact: 'High', // High, Medium, Low
-      effectLevel: 3, // 1 to 3
-      affectedPairs: ['EUR/USD', 'XAU/USD', 'USD/JPY'],
-      forecast: '0.3%',
-      previous: '0.4%',
-      actual: '---',
-      status: 'upcoming'
-    },
-    {
-      id: 'EVT-002',
-      time: '18:00 GMT',
-      countdown: 'In 4 hrs',
-      title: 'FOMC Press Conference',
-      country: 'USA',
-      impact: 'High',
-      effectLevel: 3,
-      affectedPairs: ['ALL USD PAIRS', 'BTC/USD', 'SPX500'],
-      forecast: '---',
-      previous: '---',
-      actual: '---',
-      status: 'upcoming'
-    },
-    {
-      id: 'EVT-003',
-      time: '09:30 GMT',
-      countdown: 'Released',
-      title: 'UK Services PMI',
-      country: 'UK',
-      impact: 'Medium',
-      effectLevel: 2,
-      affectedPairs: ['GBP/USD', 'GBP/JPY'],
-      forecast: '53.4',
-      previous: '53.8',
-      actual: '53.1',
-      status: 'released'
-    },
-    {
-      id: 'EVT-004',
-      time: '01:30 GMT',
-      countdown: 'Released',
-      title: 'Australia Retail Sales',
-      country: 'AUS',
-      impact: 'Low',
-      effectLevel: 1,
-      affectedPairs: ['AUD/USD'],
-      forecast: '0.2%',
-      previous: '0.3%',
-      actual: '0.2%',
-      status: 'released'
-    }
-  ];
+  const token = useSelector((state: RootState) => state.auth.token);
+  const [newsEvents, setNewsEvents] = useState<NewsEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const [impactFilter, setImpactFilter] = useState('ALL');
+  const [dateFilter, setDateFilter] = useState('today');
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
+        // Integrate API from api/postman/news.json
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        
+        // Build query string based on filters
+        const queryParams = new URLSearchParams();
+        if (impactFilter !== 'ALL') {
+          queryParams.append('filter', impactFilter);
+        }
+        queryParams.append('date', dateFilter);
+
+        const response = await fetch(`${baseUrl}/api/v1/news?${queryParams.toString()}`, {
+          headers
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch news events');
+        }
+        const data = await response.json();
+        setNewsEvents(data.data || data);
+      } catch (err: any) {
+        setError(err.message || 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, [token, impactFilter, dateFilter]);
 
   // Helper function to render the "Level of Effect" meter (flames)
   const renderEffectMeter = (level: number) => {
@@ -92,17 +98,21 @@ export default function News() {
         
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-full p-1 flex overflow-x-auto no-scrollbar">
-            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold bg-[#032EA1]/20 text-primary border border-primary/30">All News</button>
-            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">High Impact</button>
-            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Medium Impact</button>
-            <button className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Low Impact</button>
+            <button onClick={() => setImpactFilter('ALL')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'ALL' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>All News</button>
+            <button onClick={() => setImpactFilter('HIGH')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'HIGH' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>High Impact</button>
+            <button onClick={() => setImpactFilter('MEDIUM')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'MEDIUM' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>Medium Impact</button>
+            <button onClick={() => setImpactFilter('LOW')} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${impactFilter === 'LOW' ? 'bg-[#032EA1]/20 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface border border-transparent'}`}>Low Impact</button>
           </div>
           <div className="relative">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">calendar_today</span>
-            <select className="bg-surface-container-lowest border border-outline-variant/30 rounded-full py-2 pl-9 pr-8 text-xs font-bold text-on-surface focus:outline-none focus:border-primary appearance-none cursor-pointer">
-              <option>Today</option>
-              <option>Tomorrow</option>
-              <option>This Week</option>
+            <select 
+              value={dateFilter} 
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="bg-surface-container-lowest border border-outline-variant/30 rounded-full py-2 pl-9 pr-8 text-xs font-bold text-on-surface focus:outline-none focus:border-primary appearance-none cursor-pointer"
+            >
+              <option value="today">Today</option>
+              <option value="tomorrow">Tomorrow</option>
+              <option value="week">This Week</option>
             </select>
           </div>
         </div>
@@ -113,6 +123,9 @@ export default function News() {
         {/* Left/Center Column: Live Macro Feed */}
         <div className="xl:col-span-2 flex flex-col gap-6">
           <h2 className="text-xl font-bold text-on-surface border-b border-outline-variant/20 pb-4">Today's Events</h2>
+          
+          {loading && <div className="text-on-surface-variant py-4">Loading news events...</div>}
+          {error && <div className="text-error py-4">Error loading news: {error}</div>}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {newsEvents.map((event) => (
