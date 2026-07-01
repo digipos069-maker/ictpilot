@@ -51,7 +51,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           {isAuthenticated ? (
             <div className="hidden md:flex items-center gap-4">
-              <Link className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all border border-outline-variant/30" to="/ai-signal" title="Dashboard">
+              <Link className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all border border-outline-variant/30" to="/my-profile" title="My Profile">
                 <span className="material-symbols-outlined text-2xl">account_circle</span>
               </Link>
               <button onClick={handleLogout} className="bg-surface-container hover:bg-surface-variant text-error px-5 py-2 rounded-full font-bold transition-all text-sm border border-outline-variant/20">

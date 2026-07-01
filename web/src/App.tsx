@@ -15,6 +15,7 @@ import Education from './pages/Education';
 import SignalTransparentReport from './pages/SignalTransparentReport';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import MyProfile from './pages/MyProfile';
 import FloatingTelegram from './components/FloatingTelegram';
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
         <Route path="/signal-report" element={<SignalTransparentReport />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/my-profile" element={<MyProfile />} />
       </Routes>
       
       {!isAuthPage && <Footer />}
